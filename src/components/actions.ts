@@ -14,7 +14,7 @@ export const onFormAction = async (
     const data = Object.fromEntries(formData);
     const parsed = await UserSchema.safeParseAsync(data);
 
-    await new Promise((resolve) => setTimeout(resolve, 3000));
+    await new Promise((resolve) => setTimeout(resolve, 2000));
 
     if (parsed.success) {
         console.log("User registered - Server");

@@ -32,7 +32,11 @@ export default function RegisterForm() {
 
     const formRef = useRef<HTMLFormElement>(null);
 
-    const [state, formAction] = useFormState(onFormAction, {});
+    const [state, formAction] = useFormState(onFormAction, {
+        message: "",
+        user: undefined,
+        issues: [],
+    });
 
     return (
         <Form {...userForm}>
@@ -44,10 +48,12 @@ export default function RegisterForm() {
                 className="space-y-8"
                 ref={formRef}
             >
-                <div>{state?.message}</div>
+                <div className="text-red-500">{state?.message}</div>
                 <ul>
                     {state?.issues?.map((error, idx) => (
-                        <li key={idx}>{error}</li>
+                        <li key={idx} className="text-red-500">
+                            {error}
+                        </li>
                     ))}
                 </ul>
                 <FormField
