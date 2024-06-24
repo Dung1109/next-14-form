@@ -1,4 +1,7 @@
+"use server";
+
 import { TUser, UserSchema } from "@/lib/types";
+import { revalidatePath } from "next/cache";
 
 export const onFormAction = async (
     prevState: {
@@ -8,8 +11,6 @@ export const onFormAction = async (
     },
     formData: FormData
 ) => {
-    "use server";
-
     const data = Object.fromEntries(formData);
     const parsed = await UserSchema.safeParseAsync(data);
 
@@ -17,6 +18,7 @@ export const onFormAction = async (
 
     if (parsed.success) {
         console.log("User registered - Server");
+        revalidatePath("/");
         return { message: "User registered!!", user: parsed.data };
     } else {
         return {

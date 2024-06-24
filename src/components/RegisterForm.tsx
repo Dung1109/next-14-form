@@ -16,6 +16,7 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { useRef } from "react";
 import { onFormAction } from "./actions";
+import { useFormState } from "react-dom";
 
 export default function RegisterForm() {
     const userForm = useForm<FormData>({
@@ -31,19 +32,24 @@ export default function RegisterForm() {
 
     const formRef = useRef<HTMLFormElement>(null);
 
-    const onSubmit = async (data: TUser) => {
-        console.log(data);
-        await onFormAction(prevState, data);
-    };
+    const [state, formAction] = useFormState(onFormAction, {});
 
     return (
         <Form {...userForm}>
             <form
-                onSubmit={userForm.handleSubmit(onSubmit)}
-                action={onSubmit}
+                onSubmit={userForm.handleSubmit(() =>
+                    formRef.current?.submit()
+                )}
+                action={formAction}
                 className="space-y-8"
                 ref={formRef}
             >
+                <div>{state?.message}</div>
+                <ul>
+                    {state?.issues?.map((error, idx) => (
+                        <li key={idx}>{error}</li>
+                    ))}
+                </ul>
                 <FormField
                     control={userForm.control}
                     name="username"
