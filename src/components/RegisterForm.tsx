@@ -14,9 +14,11 @@ import {
 } from "./ui/form";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { onFormAction } from "./actions";
 import { useFormState } from "react-dom";
+import { useToast } from "./ui/use-toast";
+import { Toaster } from "./ui/toaster";
 
 export default function RegisterForm() {
     const userForm = useForm<FormData>({
@@ -38,8 +40,29 @@ export default function RegisterForm() {
         issues: [],
     });
 
+    const { toast } = useToast();
+
+    useEffect(() => {
+        if (state?.user) {
+            console.log("State user", state.user);
+
+            toast({
+                title: "User Registered",
+                description: "The user has been registered successfully.",
+                variant: "success",
+            });
+        } else if (state?.issues && state.issues.length > 0) {
+            toast({
+                title: "User Registration Failed",
+                description: `${state?.issues.join("\n")}`,
+                variant: "destructive",
+            });
+        }
+    }, [state?.user, toast]);
+
     return (
         <Form {...userForm}>
+            <Button onClick={() => toast({ title: "Hello" })}>Hello</Button>
             <form
                 onSubmit={userForm.handleSubmit(() =>
                     formRef.current?.submit()
@@ -142,6 +165,7 @@ export default function RegisterForm() {
                 />
                 <Button type="submit">Submit</Button>
             </form>
+            <Toaster />
         </Form>
     );
 }
