@@ -1,6 +1,6 @@
 import { ZodType, z } from "zod";
 
-export const UserSchema: ZodType<FormData> = z
+export const UserSchema: any = z
     .object({
         username: z
             .string()

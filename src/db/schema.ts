@@ -1,9 +1,9 @@
-import { mysqlTable } from "drizzle-orm/mysql-core";
+import { int, mysqlTable, varchar } from "drizzle-orm/mysql-core";
 
 export const users = mysqlTable("users", {
-    id: mysqlTable.integer("id").primaryKey(),
-    name: mysqlTable.string("name").notNull(),
-    email: mysqlTable.string("email").notNull(),
-    password: mysqlTable.string("password").notNull(),
-    createdAt: mysqlTable.datetime("created_at").defaultNow(),
+    id: int("id").autoincrement().primaryKey(),
+    username: varchar("username", { length: 20 }).notNull(),
+    email: varchar("email", { length: 255 }).notNull().unique(),
+    password: varchar("password", { length: 255 }).notNull(),
+    age: int("age").notNull(),
 });

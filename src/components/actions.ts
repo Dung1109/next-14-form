@@ -23,7 +23,9 @@ export const onFormAction = async (
     } else {
         return {
             message: "Invalid data",
-            issues: parsed.error.issues.map((issue) => issue.message),
+            issues: parsed.error.issues.map(
+                (issue: { message: any }) => issue.message
+            ),
         };
     }
 };
