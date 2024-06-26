@@ -51,18 +51,34 @@ export default function RegisterForm() {
                 description: "The user has been registered successfully.",
                 variant: "success",
             });
-        } else if (state?.issues && state.issues.length > 0) {
+
+            return;
+        }
+
+        if (state?.message && !state?.user) {
+            toast({
+                title: "Username already exists",
+                description: "Please choose a different email.",
+                variant: "destructive",
+            });
+
+            return;
+        }
+
+        if (state?.issues && state.issues.length > 0) {
             toast({
                 title: "User Registration Failed",
                 description: `${state?.issues.join("\n")}`,
                 variant: "destructive",
             });
+
+            return;
         }
     }, [state?.user, toast]);
 
     return (
         <Form {...userForm}>
-            <Button onClick={() => toast({ title: "Hello" })}>Hello</Button>
+            <h1 className="text-2xl font-bold">Register</h1>
             <form
                 onSubmit={userForm.handleSubmit(() =>
                     formRef.current?.submit()

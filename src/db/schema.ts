@@ -7,3 +7,6 @@ export const users = mysqlTable("users", {
     password: varchar("password", { length: 255 }).notNull(),
     age: int("age").notNull(),
 });
+
+export type User = typeof users.$inferSelect;
+export type NewUser = typeof users.$inferInsert;

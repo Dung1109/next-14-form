@@ -1,6 +1,6 @@
-show tables;
+-- show tables;
 
--- SELECT  * from student;
+SELECT  * from users;
 
 -- show create table student;
 

@@ -8,7 +8,6 @@ export default function Home() {
                 <DarkModeToggle />
             </div>
             <div className="fixed left-0 top-0 pl-8 pt-4">
-                <h1>Employee Form</h1>
                 <RegisterForm />
             </div>
         </main>
