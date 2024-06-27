@@ -12,24 +12,32 @@ export const onFormAction = async (
     },
     formData: FormData
 ) => {
-    const data = Object.fromEntries(formData);
-    const parsed = await UserSchema.safeParseAsync(data);
+    try {
+        const data = Object.fromEntries(formData);
+        const parsed = await UserSchema.safeParseAsync(data);
 
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+        await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    if (parsed.success) {
-        console.log("User registered - Server");
-        const result = await insertUser(parsed.data);
-        console.log("Result", result);
-        revalidatePath("/");
-        return result;
-        // return { message: "User registered!!", user: parsed.data };
-    } else {
+        if (parsed.success) {
+            console.log("User registered - Server");
+            const result = await insertUser(parsed.data);
+            console.log("Result", result);
+            revalidatePath("/");
+            return result;
+            // return { message: "User registered!!", user: parsed.data };
+        } else {
+            return {
+                message: "Invalid data",
+                issues: parsed.error.issues.map(
+                    (issue: { message: any }) => issue.message
+                ),
+            };
+        }
+    } catch (error) {
+        console.log("Error", error);
         return {
             message: "Invalid data",
-            issues: parsed.error.issues.map(
-                (issue: { message: any }) => issue.message
-            ),
+            issues: ["Something went wrong."],
         };
     }
 };

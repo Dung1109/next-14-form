@@ -1,4 +1,4 @@
-import { int, mysqlTable, varchar } from "drizzle-orm/mysql-core";
+import { int, mysqlTable, timestamp, varchar } from "drizzle-orm/mysql-core";
 
 export const users = mysqlTable("users", {
     id: int("id").autoincrement().primaryKey(),
@@ -6,6 +6,7 @@ export const users = mysqlTable("users", {
     email: varchar("email", { length: 255 }).notNull().unique(),
     password: varchar("password", { length: 255 }).notNull(),
     age: int("age").notNull(),
+    createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
 export type User = typeof users.$inferSelect;
