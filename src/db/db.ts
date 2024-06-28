@@ -37,3 +37,20 @@ export const insertUser = async (data: User) => {
         };
     }
 };
+
+export const getAllUser = async () => {
+    try {
+        const result = await db.select().from(users);
+        console.log("Total users", result.length);
+        return {
+            message: "User registered successfully",
+            user: result,
+        };
+    } catch (error) {
+        console.log("Error", error);
+        return {
+            message: "Something went wrong",
+            error,
+        };
+    }
+};
