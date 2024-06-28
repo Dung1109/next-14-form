@@ -21,7 +21,7 @@ import { useToast } from "./ui/use-toast";
 import { Toaster } from "./ui/toaster";
 
 export default function RegisterForm() {
-    const userForm = useForm<FormData>({
+    const userForm = useForm<TUser>({
         resolver: zodResolver(UserSchema),
         defaultValues: {
             username: "",
